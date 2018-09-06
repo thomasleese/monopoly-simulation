@@ -1,5 +1,6 @@
 from collections import UserDict, UserList
 from pathlib import Path
+import random
 
 import yaml
 
@@ -171,3 +172,7 @@ class Board:
     def load_spaces(self):
         config = self.load_config('spaces')
         self.spaces = Spaces(config)
+
+    def roll_dice(self):
+        dice = [random.randint(1, 6), random.randint(1, 6)]
+        return sum(dice), len(set(dice)) == 1
