@@ -79,7 +79,7 @@ class Deck(UserList):
 
                     return cls(*args, **kwargs)
 
-        raise ValueError(f'Unknown card type: {config}')
+        raise ValueError(f'Unknown card: {config}')
 
 
 class Cards(UserDict):
@@ -90,6 +90,33 @@ class Cards(UserDict):
         for name, cards in config.items():
             self.data[name] = Deck(cards)
 
+
+class Spaces(UserList):
+
+    def __init__(self, config):
+        super().__init__()
+
+        for item in config:
+            self.data.append(self.load_space(item))
+
+    def load_space(self, config):
+        if config == 'go':
+            return spaces.Go()
+        elif config == 'jail':
+            return spaces.Jail()
+        elif config == 'free_parking':
+            return spaces.FreeParking()
+        elif config == 'go_to_jail':
+            return spaces.GoToJail()
+        elif 'tax' in config:
+            return spaces.Tax(config['tax'])
+        elif 'card' in config:
+            return spaces.Card(config['card'])
+        else:
+            name, price = list(config.items())[0]
+            return spaces.Property(name, price)
+
+        raise ValueError(f'Unknown space: {config}')
 
 class Board:
 
@@ -121,3 +148,4 @@ class Board:
 
     def load_spaces(self):
         config = self.load_config('spaces')
+        self.spaces = Spaces(config)

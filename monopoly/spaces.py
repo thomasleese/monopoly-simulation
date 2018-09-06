@@ -22,15 +22,16 @@ class Tax(Space):
 
 
 class Property(Space):
-    pass
+
+    def __init__(self, property, price):
+        self.property = property
+        self.price = price
 
 
-class CommunityChest(Space):
-    pass
+class Card(Space):
 
-
-class Chance(Space):
-    pass
+    def __init__(self, deck):
+        self.deck = deck
 
 
 class Jail(Space):
