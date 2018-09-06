@@ -1,0 +1,40 @@
+community_chest:
+  - advance: go
+  - go_back: old_kent_road
+  - go_to_jail
+  - pay: 100
+  - pay: 50
+  - pay: 50
+  - receive: 200
+  - receive: 100
+  - receive: 100
+  - receive: 50
+  - receive: 25
+  - receive: 20
+  - receive: 10
+  - receive: 10
+    from: players
+  - get_out_of_jail_free
+  - pay_or_chance: 10
+
+chance:
+  - advance: go
+  - go_to_jail
+  - advance: pall_mall
+  - advance: marylebone
+  - advance: trafalgar_square
+  - advance: mayfair
+  - go_back: 3
+  - street_repairs:
+      house: 25
+      hotel: 100
+  - street_repairs:
+      house: 40
+      hotel: 115
+  - pay: 150
+  - pay: 20
+  - pay: 15
+  - receive: 150
+  - receive: 100
+  - receive: 50
+  - get_out_of_jail_free

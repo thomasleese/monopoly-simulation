@@ -1,9 +1,5 @@
-from unittest.mock import Mock
-
-from monopoly.board import GoSpace
+from monopoly import Board
 
 
-def test_go_space():
-    player = Mock(money=0)
-    GoSpace()(player)
-    assert player.money == 200
+def test_loads_uk_london():
+    assert Board.from_config('uk_london')
