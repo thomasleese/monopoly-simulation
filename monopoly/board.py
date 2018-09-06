@@ -158,6 +158,7 @@ class Board:
 
         self.houses = config['houses']
         self.hotels = config['hotels']
+        self.starting_money = config['starting_money']
 
     def load_properties(self):
         config = self.load_config('properties')
