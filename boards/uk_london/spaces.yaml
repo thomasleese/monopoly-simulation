@@ -1,11 +1,11 @@
 - go
 - old_kent_road: 60
-- community_chest
+- card: community_chest
 - whitechapel_road: 60
 - tax: 200
 - kings_cross: 200
 - the_angel_islington: 100
-- chance
+- card: chance
 - euston_road: 100
 - pentonville_road: 120
 
@@ -16,13 +16,13 @@
 - northumberland_avenue: 160
 - marylebone: 200
 - bow_street: 180
-- community_chest
+- card: community_chest
 - marlborough_street: 180
 - vine_street: 200
 
 - free_parking
 - strand: 220
-- chance
+- card: chance
 - fleet_street: 220
 - trafalgar_square: 240
 - fenchurch_street: 200
@@ -34,10 +34,10 @@
 - go_to_jail
 - regent_street: 300
 - oxford_street: 300
-- community_chest
+- card: community_chest
 - bond_street: 320
 - liverpool_street: 200
-- chance
+- card: chance
 - park_lane: 350
 - tax: 100
 - mayfair: 400

@@ -1,9 +1,9 @@
-from collections import UserDict
+from collections import UserDict, UserList
 from pathlib import Path
 
 import yaml
 
-from . import spaces
+from . import cards, spaces
 from .properties import Group, Property, Station, Street, Utility
 
 
@@ -43,6 +43,54 @@ class Properties(UserDict):
         self.data[property.name] = property
 
 
+class Deck(UserList):
+
+    card_types = {
+        'advance': cards.Advance,
+        'go_back': cards.GoBack,
+        'go_to_jail': cards.GoToJail,
+        'pay': cards.Pay,
+        'receive': cards.Receive,
+        'get_out_of_jail_free': cards.GetOutOfJailFree,
+        'street_repairs': cards.StreetRepairs,
+    }
+
+    def __init__(self, config):
+        super().__init__()
+
+        for item in config:
+            self.data.append(self.load_card(item))
+
+    def load_card(self, config):
+        for name, cls in self.card_types.items():
+            if name in config:
+                if isinstance(config, str):
+                    return cls()
+                else:
+                    arg = config[name]
+                    del config[name]
+
+                    if isinstance(arg, dict):
+                        args = []
+                        kwargs = arg
+                    else:
+                        args = [arg]
+                        kwargs = config
+
+                    return cls(*args, **kwargs)
+
+        raise ValueError(f'Unknown card type: {config}')
+
+
+class Cards(UserDict):
+
+    def __init__(self, config):
+        super().__init__()
+
+        for name, cards in config.items():
+            self.data[name] = Deck(cards)
+
+
 class Board:
 
     def __init__(self, filename):
@@ -69,6 +117,7 @@ class Board:
 
     def load_cards(self):
         config = self.load_config('cards')
+        self.cards = Cards(config)
 
     def load_spaces(self):
         config = self.load_config('spaces')

@@ -13,9 +13,10 @@ community_chest:
   - receive: 20
   - receive: 10
   - receive: 10
-    from: players
+    payer: players
   - get_out_of_jail_free
-  - pay_or_chance: 10
+  - pay: 10
+    pickup: chance
 
 chance:
   - advance: go
