@@ -1,5 +1,7 @@
 class Card:
-    pass
+
+    def attach_to_board(self, board):
+        pass
 
 
 class Advance(Card):

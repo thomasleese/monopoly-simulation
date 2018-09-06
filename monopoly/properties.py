@@ -4,6 +4,9 @@ class Group:
         self.name = name
         self.properties = []
 
+    def attach_to_board(self, board):
+        pass
+
 
 class Property:
 
@@ -12,6 +15,9 @@ class Property:
         self.mortgage_value = mortgage_value
         self.rent = rent
         self._group = None
+
+    def attach_to_board(self, board):
+        pass
 
     @property
     def group(self):

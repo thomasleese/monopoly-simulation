@@ -5,6 +5,9 @@ class Space:
             'Must implement what happens when the player lands on this space.'
         )
 
+    def attach_to_board(self, board):
+        pass
+
 
 class Go(Space):
 
@@ -23,15 +26,21 @@ class Tax(Space):
 
 class Property(Space):
 
-    def __init__(self, property, price):
-        self.property = property
+    def __init__(self, property_name, price):
+        self.property_name = property_name
         self.price = price
+
+    def attach_to_board(self, board):
+        self.property = board.properties[self.property_name]
 
 
 class Card(Space):
 
-    def __init__(self, deck):
-        self.deck = deck
+    def __init__(self, deck_name):
+        self.deck_name = deck_name
+
+    def attach_to_board(self, board):
+        self.deck = board.cards[self.deck_name]
 
 
 class Jail(Space):

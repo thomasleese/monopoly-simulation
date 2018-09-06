@@ -42,6 +42,10 @@ class Properties(UserDict):
         property.add_to_group(group)
         self.data[property.name] = property
 
+    def attach_to_board(self, board):
+        for property in self.values():
+            property.attach_to_board(board)
+
 
 class Deck(UserList):
 
@@ -81,6 +85,10 @@ class Deck(UserList):
 
         raise ValueError(f'Unknown card: {config}')
 
+    def attach_to_board(self, board):
+        for card in self:
+            card.attach_to_board(board)
+
 
 class Cards(UserDict):
 
@@ -89,6 +97,10 @@ class Cards(UserDict):
 
         for name, cards in config.items():
             self.data[name] = Deck(cards)
+
+    def attach_to_board(self, board):
+        for deck in self.values():
+            deck.attach_to_board(board)
 
 
 class Spaces(UserList):
@@ -118,6 +130,11 @@ class Spaces(UserList):
 
         raise ValueError(f'Unknown space: {config}')
 
+    def attach_to_board(self, board):
+        for space in self:
+            space.attach_to_board(board)
+
+
 class Board:
 
     def __init__(self, filename):
@@ -127,6 +144,10 @@ class Board:
         self.load_properties()
         self.load_cards()
         self.load_spaces()
+
+        self.properties.attach_to_board(self)
+        self.cards.attach_to_board(self)
+        self.spaces.attach_to_board(self)
 
     def load_config(self, part):
         with (self.path / f'{part}.yaml').open('r') as file:
