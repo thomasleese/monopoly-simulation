@@ -48,7 +48,7 @@ class Properties(UserDict):
             property.attach_to_board(board)
 
 
-class Deck(UserList):
+class Cards(UserDict):
 
     card_types = {
         'advance': cards.Advance,
@@ -63,8 +63,16 @@ class Deck(UserList):
     def __init__(self, config):
         super().__init__()
 
-        for item in config:
-            self.data.append(self.load_card(item))
+        self.data = {
+            name: self.load_deck(c) for name, c in config.items()
+        }
+
+    def attach_to_board(self, board):
+        for deck in self.values():
+            deck.attach_to_board(board)
+
+    def load_deck(self, config):
+        return cards.Deck([self.load_card(c) for c in config])
 
     def load_card(self, config):
         for name, cls in self.card_types.items():
@@ -86,31 +94,18 @@ class Deck(UserList):
 
         raise ValueError(f'Unknown card: {config}')
 
-    def attach_to_board(self, board):
-        for card in self:
-            card.attach_to_board(board)
-
-
-class Cards(UserDict):
-
-    def __init__(self, config):
-        super().__init__()
-
-        for name, cards in config.items():
-            self.data[name] = Deck(cards)
-
-    def attach_to_board(self, board):
-        for deck in self.values():
-            deck.attach_to_board(board)
-
 
 class Spaces(UserList):
 
     def __init__(self, config):
         super().__init__()
 
-        for item in config:
-            self.data.append(self.load_space(item))
+        self.name_positions = {}
+
+        for i, item in enumerate(config):
+            space = self.load_space(item)
+            self.data.append(space)
+            self.name_positions[space.name] = i
 
     def load_space(self, config):
         if config == 'go':
@@ -135,16 +130,24 @@ class Spaces(UserList):
         for space in self:
             space.attach_to_board(board)
 
+    def position(self, name):
+        return self.name_positions[name]
+
 
 class Board:
 
-    def __init__(self, filename):
+    def __init__(self, filename, players):
         self.path = Path(filename)
 
         self.load_rules()
         self.load_properties()
         self.load_cards()
         self.load_spaces()
+
+        self.players = players
+
+        for player in self.players:
+            player.attach_to_board(self)
 
         self.properties.attach_to_board(self)
         self.cards.attach_to_board(self)

@@ -1,27 +1,22 @@
 from .board import Board
 from .player import Player
-from .strategy import Strategy
+from .strategy import BasicStrategy
 
 
 class Game:
 
-    def __init__(self, board, players):
+    def __init__(self, board):
         self.board = board
-        self.players = players
-
-        for player in self.players:
-            player.attach_to_board(self.board)
+        self.players = board.players
 
     def play(self):
-        print("Let's play Monopoly!")
-
         while True:
             for player in self.players:
                 player.play()
 
 
 if __name__ == '__main__':
-    board = Board('boards/uk_london')
-    players = [Player(Strategy()) for i in range(4)]
-    game = Game(board, players)
+    players = [Player(BasicStrategy()) for i in range(4)]
+    board = Board('boards/uk_london', players)
+    game = Game(board)
     game.play()
