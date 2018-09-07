@@ -5,5 +5,5 @@ from monopoly.spaces import Go
 
 def test_go():
     player = Mock(money=0)
-    Go()(player)
+    Go().play(player)
     assert player.money == 200

@@ -1,12 +1,12 @@
 class Card:
 
-    def __call__(self, player):
-        raise NotImplementedError(
-            'Must implement what happens when the player lands on this card.'
-        )
-
     def attach_to_board(self, board):
         pass
+
+    def play(self, player):
+        raise NotImplementedError(
+            'Must implement what happens when the player plays this card.'
+        )
 
 
 class Advance(Card):
@@ -23,7 +23,7 @@ class GoBack(Card):
 
 class GoToJail(Card):
 
-    def __call__(self, player):
+    def play(self, player):
         player.go_to_jail()
 
 
@@ -46,9 +46,12 @@ class Receive(Card):
 
 class GetOutOfJailFree(Card):
 
-    def __call__(self, player):
-        # TODO check the player has this card
+    def play(self, player):
+        if not self in player.cards:
+            raise ValueError("Player doesn't have this card!")
+
         player.in_jail = False
+
         # TODO move this card back to the deck
 
 

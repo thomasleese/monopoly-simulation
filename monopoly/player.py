@@ -1,26 +1,30 @@
 class Player:
 
-    def __init__(self, money, strategy):
-        self.money = money
+    def __init__(self, strategy):
         self.strategy = strategy
+        self.money = 0
         self.position = 0
         self.properties = []
         self.cards = []
         self.in_jail = False
 
-    def __call__(self, board):
-        dice, is_double = board.roll_dice()
+    def attach_to_board(self, board):
+        self.board = board
+        self.money = board.starting_money
+
+    def play(self):
+        dice, is_double = self.board.roll_dice()
         self.play_go(dice)
 
         if is_double:
-            dice, is_double = board.roll_dice()
+            dice, is_double = self.board.roll_dice()
             self.play_go(dice)
 
             if is_double:
-                _, is_double = board.roll_dice()
-                self.go_to_jail(board)
+                _, is_double = self.board.roll_dice()
+                self.go_to_jail()
 
-    def go_to_jail(self, board):
+    def go_to_jail(self):
         self.in_jail = True
         raise ValueError('I go to jail')
 

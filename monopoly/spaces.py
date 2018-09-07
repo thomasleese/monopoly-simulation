@@ -1,17 +1,17 @@
 class Space:
 
-    def __call__(self, player):
+    def attach_to_board(self, board):
+        pass
+
+    def play(self, player):
         raise NotImplementedError(
             'Must implement what happens when the player lands on this space.'
         )
 
-    def attach_to_board(self, board):
-        pass
-
 
 class Go(Space):
 
-    def __call__(self, player):
+    def play(self, player):
         player.money += 200
 
 
@@ -20,7 +20,7 @@ class Tax(Space):
     def __init__(self, amount):
         self.amount = amount
 
-    def __call__(self, player):
+    def play(self, player):
         player.money -= self.amount
 
 
@@ -52,4 +52,6 @@ class FreeParking(Space):
 
 
 class GoToJail(Space):
-    pass
+
+    def play(self, player):
+        player.go_to_jail()
